@@ -32,6 +32,13 @@
         "sap.ui.layout": {}
       }
     },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
     "contentDensities": {
       "compact": true,
       "cozy": true

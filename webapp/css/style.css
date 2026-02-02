@@ -3,3 +3,12 @@
 	max-width: 30rem;
 	flex: 1;
 }
+
+.radarPanel .sapMPanel {
+	height: 100%;
+}
+
+.radarPanel .sapMListNoData {
+	text-align: center;
+	padding: 2rem;
+}
