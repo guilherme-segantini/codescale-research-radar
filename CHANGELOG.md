@@ -10,6 +10,14 @@ All notable changes to this project will be documented in this file.
 - **Mock data and JSON model binding** - 6 mock trends from PRD Section 7 with per-panel filtering in controller (#10)
 - **i18n translations** - All user-facing text externalized to i18n.properties (#11)
 - **Formatter and CSS styling** - Signal/noise visual distinction with green/gray badges, confidence percentages, evidence lists (#12)
+- **Backend scaffold** - Complete FastAPI application structure (`backend/`) with all endpoints, models, services, and tests
+- **SQLite database** - Trend model with CHECK constraints (classification, confidence_score), UNIQUE constraint, and performance indexes
+- **GET /api/radar** - Returns latest radar data with optional `?date=YYYY-MM-DD` for historical queries
+- **POST /api/radar/refresh** - Triggers Grok analysis via direct xAI API calls with retry logic (3 attempts, exponential backoff)
+- **Grok service** - Direct httpx integration with xAI API, JSON validation, prompt loading from `/prompts/`, and transaction-safe persistence
+- **13 passing tests** - API endpoint tests (7) and service validation tests (6)
+- **SETUP.md** - Environment setup guide covering backend, frontend, xAI API key, and troubleshooting
+- **PRD.md Section 3** - Database schema, API endpoint docs, CORS config, and error handling requirements
 - **Signal vs Noise classification** - Core feature to distinguish actionable technical findings from marketing hype
 - **GitHub repository** - Created `codescale-research-radar` repo at https://github.com/guilherme-segantini/codescale-research-radar
 - **21 GitHub issues** - Restructured tasks for 3-developer parallel work
