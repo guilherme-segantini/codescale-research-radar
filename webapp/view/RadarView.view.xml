@@ -1,0 +1,54 @@
+<mvc:View
+	controllerName="com.codescale.radar.controller.RadarView"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:f="sap.f"
+	xmlns:grid="sap.ui.layout.cssgrid">
+	<Page
+		id="radarPage"
+		title="{i18n>radarTitle}">
+		<content>
+			<FlexBox
+				id="radarContainer"
+				direction="Row"
+				justifyContent="Center"
+				wrap="Wrap"
+				class="sapUiSmallMargin">
+
+				<!-- Voice AI UX Panel -->
+				<Panel
+					id="voiceAiPanel"
+					headerText="{i18n>voiceAiTitle}"
+					expandable="false"
+					class="sapUiSmallMargin radarPanel">
+					<VBox id="voiceAiContent" />
+				</Panel>
+
+				<!-- Agent Orchestration Panel -->
+				<Panel
+					id="agentOrchestrationPanel"
+					headerText="{i18n>agentOrchestrationTitle}"
+					expandable="false"
+					class="sapUiSmallMargin radarPanel">
+					<VBox id="agentOrchestrationContent" />
+				</Panel>
+
+				<!-- Durable Runtime Panel -->
+				<Panel
+					id="durableRuntimePanel"
+					headerText="{i18n>durableRuntimeTitle}"
+					expandable="false"
+					class="sapUiSmallMargin radarPanel">
+					<VBox id="durableRuntimeContent" />
+				</Panel>
+
+			</FlexBox>
+		</content>
+		<footer>
+			<Toolbar id="footerToolbar">
+				<ToolbarSpacer />
+				<Text id="lastUpdatedText" text="{i18n>lastUpdatedLabel}" />
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>
