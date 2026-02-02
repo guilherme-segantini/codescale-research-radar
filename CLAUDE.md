@@ -234,6 +234,20 @@ cd /Users/I769068/projects/scaling-productivity/track-b && claude
 cd /Users/I769068/projects/scaling-productivity/track-c && claude
 ```
 
+### Agent Startup Checklist
+
+When starting a new session as a track agent:
+
+1. **Read this CLAUDE.md** to understand your role and workflow rules
+2. **Check GitHub auth:** `gh auth status`
+3. **Sync with main:** `git fetch origin main && git rebase origin/main`
+4. **View your backlog:** `gh issue list --label "track-X"` (replace X with a, b, or c)
+5. **Pick an issue** and add `in-progress` label: `gh issue edit <number> --add-label "in-progress"`
+6. **Do the work** - stay in your track's directory (`webapp/`, `backend/`, or `prompts/`)
+7. **Commit with issue reference:** `git commit -m "feat: description. Part of #<number>"`
+8. **When done, create a PR:** `gh pr create --base main --title "[Track X] Description" --body "Closes #<number>"`
+9. **Update CHANGELOG.md** before ending your session
+
 ### Agent Responsibilities
 
 **Track A Agent (Frontend):**
