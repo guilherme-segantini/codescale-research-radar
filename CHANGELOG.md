@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - **Signal vs Noise classification** - Core feature to distinguish actionable technical findings from marketing hype
+- **GitHub repository** - Created `codescale-research-radar` repo at https://github.com/guilherme-segantini/codescale-research-radar
+- **21 GitHub issues** - Restructured tasks for 3-developer parallel work
+- **Track labels** - `track-a` (Frontend), `track-b` (Backend), `track-c` (AI/Prompts), `integration`
+- **TASKS.md** - Task breakdown document with developer assignments and dependencies
 - `signal_evidence` and `noise_indicators` fields in Golden Contract schema
 - Mock data with signal and noise examples for each focus area (6 items total)
 - Historical data query support (`GET /api/radar?date=YYYY-MM-DD`)
