@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- **SAPUI5 project skeleton** - Complete UI5 application with Component.js, manifest.json, index.html, routing, and async loading (#8)
+- **RadarView 3-panel layout** - Fiori-style dashboard with Voice AI UX, Agent Orchestration, and Durable Runtime panels (#9)
+- **Mock data and JSON model binding** - 6 mock trends from PRD Section 7 with per-panel filtering in controller (#10)
+- **i18n translations** - All user-facing text externalized to i18n.properties (#11)
+- **Formatter and CSS styling** - Signal/noise visual distinction with green/gray badges, confidence percentages, evidence lists (#12)
 - **Signal vs Noise classification** - Core feature to distinguish actionable technical findings from marketing hype
 - **GitHub repository** - Created `codescale-research-radar` repo at https://github.com/guilherme-segantini/codescale-research-radar
 - **21 GitHub issues** - Restructured tasks for 3-developer parallel work
