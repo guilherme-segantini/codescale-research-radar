@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - **21 GitHub issues** - Restructured tasks for 3-developer parallel work
 - **Track labels** - `track-a` (Frontend), `track-b` (Backend), `track-c` (AI/Prompts), `integration`
 - **TASKS.md** - Task breakdown document with developer assignments and dependencies
+- **Git worktrees** - Set up 3 isolated working directories for parallel agent development (track-a, track-b, track-c)
 - `signal_evidence` and `noise_indicators` fields in Golden Contract schema
 - Mock data with signal and noise examples for each focus area (6 items total)
 - Historical data query support (`GET /api/radar?date=YYYY-MM-DD`)
