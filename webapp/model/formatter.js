@@ -14,8 +14,8 @@ sap.ui.define([], () => {
 			return sClassification === "signal" ? "Success" : "None";
 		},
 
-		classificationText(sClassification) {
-			return sClassification === "signal" ? "Signal" : "Noise";
+		classificationColor(sClassification) {
+			return sClassification === "signal" ? "#2b7c2b" : "#999999";
 		}
 	};
 });

@@ -12,3 +12,11 @@
 	text-align: center;
 	padding: 2rem;
 }
+
+.radarPanel .sapMLIBContent {
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.radarPanel .sapMObjStatusText {
+	font-weight: bold;
+}
