@@ -205,3 +205,83 @@ Before marking work complete:
 
 ## Known Issues
 - [Track problems or limitations]
+
+---
+
+## Multi-Agent Development (Git Worktrees)
+
+This project uses **3 parallel Claude agents** working on isolated branches via Git worktrees.
+
+### Worktree Structure
+
+| Directory | Branch | Track | Focus |
+|-----------|--------|-------|-------|
+| `technologies-trend/` | `main` | Orchestrator | Merge PRs, coordination |
+| `track-a/` | `feature/track-a` | Track A | Frontend (SAPUI5) |
+| `track-b/` | `feature/track-b` | Track B | Backend (FastAPI) |
+| `track-c/` | `feature/track-c` | Track C | AI/Prompts |
+
+### Starting an Agent Session
+
+```bash
+# Track A - Frontend Developer
+cd /Users/I769068/projects/scaling-productivity/track-a && claude
+
+# Track B - Backend Developer
+cd /Users/I769068/projects/scaling-productivity/track-b && claude
+
+# Track C - AI/Prompts Developer
+cd /Users/I769068/projects/scaling-productivity/track-c && claude
+```
+
+### Agent Responsibilities
+
+**Track A Agent (Frontend):**
+- GitHub Issues: #5, #8, #9, #10, #11, #12
+- Files: `webapp/**`
+- Label filter: `gh issue list --label "track-a"`
+
+**Track B Agent (Backend):**
+- GitHub Issues: #2, #3, #4, #13, #14, #15
+- Files: `backend/**`
+- Label filter: `gh issue list --label "track-b"`
+
+**Track C Agent (AI/Prompts):**
+- GitHub Issues: #6, #16, #17, #18
+- Files: `prompts/**`
+- Label filter: `gh issue list --label "track-c"`
+
+### Workflow Rules
+
+1. **Check issues first:** `gh issue list --label "track-X"`
+2. **Claim work:** Add `in-progress` label before starting
+3. **Stay in your lane:** Only modify files in your track's directory
+4. **Commit often:** Reference issue numbers (`Part of #8`)
+5. **Create PR when done:** Target `main` branch
+6. **Update changelog:** Record changes before ending session
+
+### Syncing with Main
+
+```bash
+# Pull latest from main (do this before starting new work)
+git fetch origin main
+git rebase origin/main
+
+# Push your branch
+git push origin feature/track-a --force-with-lease
+```
+
+### Creating a PR
+
+```bash
+gh pr create --base main --title "[Track A] Implement RadarView" --body "Closes #9"
+```
+
+### Useful Commands
+
+```bash
+git worktree list                    # See all worktrees
+gh issue list --label "track-a"      # Your backlog
+gh pr list                           # Open PRs
+gh pr view <number>                  # PR details
+```
