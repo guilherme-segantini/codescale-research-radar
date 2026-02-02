@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>QUnit Test Suite for CodeScale Research Radar</title>
+	<script
+		src="../resources/sap/ui/qunit/qunit-redirect.js"
+		data-sap-ui-resource-roots='{"test-resources": "./"}'></script>
+</head>
+<body>
+	<script>
+		"use strict";
+		/* global QUnit */
+		QUnit.config.autostart = false;
+
+		sap.ui.require([
+			"sap/ui/test/Opa5",
+			"test-resources/unit/unitTests.qunit",
+			"test-resources/integration/opaTests.qunit"
+		], function() {
+			QUnit.start();
+		});
+	</script>
+</body>
+</html>
