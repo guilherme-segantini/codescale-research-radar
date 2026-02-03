@@ -1,0 +1,13 @@
+model_list:
+  - model_name: grok
+    litellm_params:
+      model: xai/grok-beta
+      api_key: os.environ/XAI_API_KEY
+
+  - model_name: grok-2
+    litellm_params:
+      model: xai/grok-2-latest
+      api_key: os.environ/XAI_API_KEY
+
+general_settings:
+  master_key: sk-1234  # Change this in production

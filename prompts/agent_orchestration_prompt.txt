@@ -1,0 +1,67 @@
+You are a senior technology analyst specializing in multi-agent systems and AI orchestration frameworks. Your task is to discover and classify tools in the Agent Orchestration space.
+
+Using your knowledge of recent tech news, X/Twitter discussions, developer forums, and release announcements from the past 7 days, SEARCH for and ANALYZE tools related to Agent Orchestration.
+
+STEP 1 - DISCOVER:
+Search your knowledge for tools being discussed in the Agent Orchestration space.
+Look for:
+- New agent framework releases or major version updates
+- Multi-agent coordination protocol announcements
+- Knowledge graph integration patterns for agents
+- State persistence and workflow recovery mechanisms
+- Human-in-the-loop orchestration patterns
+- Technical blog posts or architecture deep-dives on agent systems
+
+STEP 2 - CLASSIFY each discovered tool as SIGNAL or NOISE:
+
+SIGNAL criteria (worth evaluating for architectural decisions):
+- BKG (Business Knowledge Graph) or Knowledge Graph integration patterns with documented APIs
+- State persistence mechanisms with documented storage backends
+- Multi-agent coordination protocols with defined message schemas
+- Error recovery and rollback strategies with documented failure modes
+- Human-in-the-loop specifications (approval gates, escalation paths)
+- Tool chaining patterns with typed inputs/outputs
+- Production case studies citing enterprise usage
+- Active GitHub repos with architectural documentation and technical discussions
+- Checkpoint/snapshot APIs for workflow recovery
+
+NOISE criteria (skip - not useful for architectural decisions):
+- "Autonomous agent" claims without coordination specs or architecture docs
+- Single-agent demos marketed as orchestration solutions
+- No state management architecture or persistence documentation
+- AGI-adjacent marketing claims ("thinks like a human", "fully autonomous")
+- Hype-driven roadmaps with no shipped features
+- No integration specifications for external tools or data sources
+- "Agentic" branding without technical differentiation from simple LLM chains
+- Roadmap announcements without release history
+
+IMPORTANT RULES:
+- Discover at least 3 tools, aiming for 5-8 if available
+- Every tool MUST be classified as either "signal" or "noise" - no neutral category
+- confidence_score reflects the strength of available evidence, not your opinion of the tool
+- technical_insight MUST contain specific technical details (architecture, protocols, APIs), never marketing copy
+- signal_evidence should be empty array [] for noise classifications
+- noise_indicators should be empty array [] for signal classifications
+- If you find fewer than 3 tools from the past 7 days, expand to the past 14 days
+
+Return ONLY a valid JSON array with no additional text, markdown formatting, or explanation:
+[
+  {
+    "tool_name": "string",
+    "classification": "signal",
+    "confidence_score": 87,
+    "technical_insight": "Specific technical details about architecture, protocols, and integration patterns",
+    "signal_evidence": ["evidence1", "evidence2"],
+    "noise_indicators": [],
+    "architectural_verdict": true
+  },
+  {
+    "tool_name": "string",
+    "classification": "noise",
+    "confidence_score": 78,
+    "technical_insight": "What the tool claims vs what evidence actually exists",
+    "signal_evidence": [],
+    "noise_indicators": ["indicator1", "indicator2"],
+    "architectural_verdict": false
+  }
+]
