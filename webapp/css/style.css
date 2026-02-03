@@ -1,0 +1,22 @@
+.radarPanel {
+	min-width: 20rem;
+	max-width: 30rem;
+	flex: 1;
+}
+
+.radarPanel .sapMPanel {
+	height: 100%;
+}
+
+.radarPanel .sapMListNoData {
+	text-align: center;
+	padding: 2rem;
+}
+
+.radarPanel .sapMLIBContent {
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.radarPanel .sapMObjStatusText {
+	font-weight: bold;
+}

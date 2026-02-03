@@ -1,0 +1,186 @@
+<mvc:View
+	controllerName="com.codescale.radar.controller.RadarView"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:layout="sap.ui.layout">
+	<Page
+		id="radarPage"
+		title="{i18n>radarTitle}">
+		<content>
+			<FlexBox
+				id="radarContainer"
+				direction="Row"
+				justifyContent="Center"
+				wrap="Wrap"
+				class="sapUiSmallMargin">
+
+				<!-- Voice AI UX Panel -->
+				<Panel
+					id="voiceAiPanel"
+					headerText="{i18n>voiceAiTitle}"
+					expandable="false"
+					class="sapUiSmallMargin radarPanel">
+					<List
+						id="voiceAiList"
+						items="{view>/voiceAiUx}"
+						noDataText="{i18n>noDataText}">
+						<CustomListItem>
+							<VBox class="sapUiSmallMargin">
+								<HBox alignItems="Center" class="sapUiTinyMarginBottom">
+									<core:Icon
+										src="{= ${view>classification} === 'signal' ? 'sap-icon://accept' : 'sap-icon://decline'}"
+										color="{= ${view>classification} === 'signal' ? '#2b7c2b' : '#999999'}"
+										class="sapUiSmallMarginEnd" />
+									<Title text="{view>tool_name}" level="H5" />
+								</HBox>
+								<ObjectStatus
+									text="{= ${view>classification} === 'signal' ? ${i18n>signalLabel} : ${i18n>noiseLabel}}"
+									state="{= ${view>classification} === 'signal' ? 'Success' : 'None'}"
+									icon="{= ${view>classification} === 'signal' ? 'sap-icon://accept' : 'sap-icon://decline'}"
+									class="sapUiTinyMarginBottom" />
+								<ObjectAttribute title="{i18n>confidencePrefix}" text="{= ${view>confidence_score} + '%'}" />
+								<Text text="{view>technical_insight}" class="sapUiTinyMarginTop sapUiTinyMarginBottom" />
+								<List
+									visible="{= ${view>signal_evidence}.length > 0}"
+									items="{view>signal_evidence}"
+									showNoData="false"
+									backgroundDesign="Transparent">
+									<StandardListItem
+										title="{view>}"
+										icon="sap-icon://circle-task-2"
+										type="Inactive"
+										iconDensityAware="false" />
+								</List>
+								<List
+									visible="{= ${view>noise_indicators}.length > 0}"
+									items="{view>noise_indicators}"
+									showNoData="false"
+									backgroundDesign="Transparent">
+									<StandardListItem
+										title="{view>}"
+										icon="sap-icon://circle-task-2"
+										type="Inactive"
+										iconDensityAware="false" />
+								</List>
+							</VBox>
+						</CustomListItem>
+					</List>
+				</Panel>
+
+				<!-- Agent Orchestration Panel -->
+				<Panel
+					id="agentOrchestrationPanel"
+					headerText="{i18n>agentOrchestrationTitle}"
+					expandable="false"
+					class="sapUiSmallMargin radarPanel">
+					<List
+						id="agentOrchestrationList"
+						items="{view>/agentOrchestration}"
+						noDataText="{i18n>noDataText}">
+						<CustomListItem>
+							<VBox class="sapUiSmallMargin">
+								<HBox alignItems="Center" class="sapUiTinyMarginBottom">
+									<core:Icon
+										src="{= ${view>classification} === 'signal' ? 'sap-icon://accept' : 'sap-icon://decline'}"
+										color="{= ${view>classification} === 'signal' ? '#2b7c2b' : '#999999'}"
+										class="sapUiSmallMarginEnd" />
+									<Title text="{view>tool_name}" level="H5" />
+								</HBox>
+								<ObjectStatus
+									text="{= ${view>classification} === 'signal' ? ${i18n>signalLabel} : ${i18n>noiseLabel}}"
+									state="{= ${view>classification} === 'signal' ? 'Success' : 'None'}"
+									icon="{= ${view>classification} === 'signal' ? 'sap-icon://accept' : 'sap-icon://decline'}"
+									class="sapUiTinyMarginBottom" />
+								<ObjectAttribute title="{i18n>confidencePrefix}" text="{= ${view>confidence_score} + '%'}" />
+								<Text text="{view>technical_insight}" class="sapUiTinyMarginTop sapUiTinyMarginBottom" />
+								<List
+									visible="{= ${view>signal_evidence}.length > 0}"
+									items="{view>signal_evidence}"
+									showNoData="false"
+									backgroundDesign="Transparent">
+									<StandardListItem
+										title="{view>}"
+										icon="sap-icon://circle-task-2"
+										type="Inactive"
+										iconDensityAware="false" />
+								</List>
+								<List
+									visible="{= ${view>noise_indicators}.length > 0}"
+									items="{view>noise_indicators}"
+									showNoData="false"
+									backgroundDesign="Transparent">
+									<StandardListItem
+										title="{view>}"
+										icon="sap-icon://circle-task-2"
+										type="Inactive"
+										iconDensityAware="false" />
+								</List>
+							</VBox>
+						</CustomListItem>
+					</List>
+				</Panel>
+
+				<!-- Durable Runtime Panel -->
+				<Panel
+					id="durableRuntimePanel"
+					headerText="{i18n>durableRuntimeTitle}"
+					expandable="false"
+					class="sapUiSmallMargin radarPanel">
+					<List
+						id="durableRuntimeList"
+						items="{view>/durableRuntime}"
+						noDataText="{i18n>noDataText}">
+						<CustomListItem>
+							<VBox class="sapUiSmallMargin">
+								<HBox alignItems="Center" class="sapUiTinyMarginBottom">
+									<core:Icon
+										src="{= ${view>classification} === 'signal' ? 'sap-icon://accept' : 'sap-icon://decline'}"
+										color="{= ${view>classification} === 'signal' ? '#2b7c2b' : '#999999'}"
+										class="sapUiSmallMarginEnd" />
+									<Title text="{view>tool_name}" level="H5" />
+								</HBox>
+								<ObjectStatus
+									text="{= ${view>classification} === 'signal' ? ${i18n>signalLabel} : ${i18n>noiseLabel}}"
+									state="{= ${view>classification} === 'signal' ? 'Success' : 'None'}"
+									icon="{= ${view>classification} === 'signal' ? 'sap-icon://accept' : 'sap-icon://decline'}"
+									class="sapUiTinyMarginBottom" />
+								<ObjectAttribute title="{i18n>confidencePrefix}" text="{= ${view>confidence_score} + '%'}" />
+								<Text text="{view>technical_insight}" class="sapUiTinyMarginTop sapUiTinyMarginBottom" />
+								<List
+									visible="{= ${view>signal_evidence}.length > 0}"
+									items="{view>signal_evidence}"
+									showNoData="false"
+									backgroundDesign="Transparent">
+									<StandardListItem
+										title="{view>}"
+										icon="sap-icon://circle-task-2"
+										type="Inactive"
+										iconDensityAware="false" />
+								</List>
+								<List
+									visible="{= ${view>noise_indicators}.length > 0}"
+									items="{view>noise_indicators}"
+									showNoData="false"
+									backgroundDesign="Transparent">
+									<StandardListItem
+										title="{view>}"
+										icon="sap-icon://circle-task-2"
+										type="Inactive"
+										iconDensityAware="false" />
+								</List>
+							</VBox>
+						</CustomListItem>
+					</List>
+				</Panel>
+
+			</FlexBox>
+		</content>
+		<footer>
+			<Toolbar id="footerToolbar">
+				<ToolbarSpacer />
+				<Text id="lastUpdatedText" text="{view>/lastUpdated}" />
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>

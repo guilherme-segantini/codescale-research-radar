@@ -1,0 +1,87 @@
+{
+  "_version": "2.5.0",
+  "sap.app": {
+    "id": "com.codescale.radar",
+    "type": "application",
+    "title": "{{radarTitle}}",
+    "applicationVersion": {
+      "version": "0.1.0"
+    },
+    "dataSources": {
+      "radarData": {
+        "type": "JSON",
+        "uri": "model/mock_radar.json"
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "dependencies": {
+      "minUI5Version": "1.136.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.f": {},
+        "sap.ui.layout": {}
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "com.codescale.radar.i18n.i18n"
+        }
+      },
+      "": {
+        "type": "sap.ui.model.json.JSONModel",
+        "dataSource": "radarData"
+      }
+    },
+    "rootView": {
+      "viewName": "com.codescale.radar.view.App",
+      "type": "XML",
+      "id": "app"
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "type": "View",
+        "viewType": "XML",
+        "path": "com.codescale.radar.view",
+        "controlId": "appControl",
+        "controlAggregation": "pages"
+      },
+      "routes": [
+        {
+          "name": "radar",
+          "pattern": "",
+          "target": "radar"
+        }
+      ],
+      "targets": {
+        "radar": {
+          "name": "RadarView",
+          "id": "radarView"
+        }
+      }
+    }
+  }
+}
