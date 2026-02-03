@@ -4,7 +4,7 @@ import logging
 import os
 from datetime import datetime, timezone
 
-import litellm
+import httpx
 from sqlalchemy.orm import Session
 
 from app.models import Trend
@@ -29,7 +29,7 @@ def _load_prompt(focus_area: str) -> str | None:
 
 
 async def _call_grok(focus_area: str) -> list[dict]:
-    """Call Grok via LiteLLM with retry logic."""
+    """Call Grok API directly with retry logic."""
     prompt = _load_prompt(focus_area)
     if not prompt:
         prompt = (
@@ -39,14 +39,31 @@ async def _call_grok(focus_area: str) -> list[dict]:
             f"noise_indicators array, and architectural_verdict (true/false)."
         )
 
+    api_key = os.getenv("XAI_API_KEY")
+    model = os.getenv("LLM_MODEL", "grok-4-latest")
+
     for attempt in range(MAX_RETRIES):
         try:
-            response = await asyncio.to_thread(
-                litellm.completion,
-                model=os.getenv("LLM_MODEL", "xai/grok-beta"),
-                messages=[{"role": "user", "content": prompt}],
-            )
-            content = response.choices[0].message.content
+            async with httpx.AsyncClient(timeout=60.0) as client:
+                response = await client.post(
+                    "https://api.x.ai/v1/chat/completions",
+                    headers={
+                        "Content-Type": "application/json",
+                        "Authorization": f"Bearer {api_key}",
+                    },
+                    json={
+                        "messages": [{"role": "user", "content": prompt}],
+                        "model": model,
+                        "stream": False,
+                        "temperature": 0,
+                    },
+                )
+                if response.status_code != 200:
+                    error_body = response.text
+                    logger.error(f"API error: {response.status_code} - {error_body}")
+                response.raise_for_status()
+                data = response.json()
+                content = data["choices"][0]["message"]["content"]
 
             # Extract JSON from response (handle markdown code blocks)
             if "```json" in content:
