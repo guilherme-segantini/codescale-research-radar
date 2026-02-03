@@ -29,12 +29,14 @@ All notable changes to this project will be documented in this file.
 - Historical data query support (`GET /api/radar?date=YYYY-MM-DD`)
 
 ### Changed
-- **AI Provider**: Switched from Grok 4 to **SAP Generative AI Hub via LiteLLM** (see https://docs.litellm.ai/docs/providers/sap)
+- **AI Provider**: Using **xAI Grok 4 (grok-4-latest)** via direct API calls with httpx (grok-beta deprecated 2025-09-15)
+- **LiteLLM replaced**: Switched from LiteLLM to direct xAI API calls due to provider format incompatibility
 - **Refresh cycle**: Changed from 30-minute to **daily (1-day)** batch processing
 - **Golden Contract**: Added `classification`, `signal_evidence`, `noise_indicators` fields; renamed `trend_score` to `confidence_score`
 - **Success criteria**: Updated to include signal/noise classification accuracy metrics
 - **Prompt template**: Redesigned for signal vs noise classification with specific criteria per focus area
 
 ### Deferred
-- Grok 4 direct integration - Rationale: Using SAP Generative AI Hub for enterprise-grade AI infrastructure
+- LiteLLM integration - Rationale: Provider format doesn't properly support xAI, using direct API calls instead
+- SAP Generative AI Hub - Rationale: xAI Grok provides direct X/Twitter data access for trend discovery
 - 30-minute refresh cycle - Rationale: Daily batch is sufficient for PoC scope, reduces API costs
