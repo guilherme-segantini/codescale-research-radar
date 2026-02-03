@@ -1,8 +1,6 @@
 sap.ui.define([
 	"com/codescale/radar/controller/RadarView.controller",
-	"sap/ui/model/json/JSONModel",
-	"sap/ui/thirdparty/sinon",
-	"sap/ui/thirdparty/sinon-qunit"
+	"sap/ui/model/json/JSONModel"
 ], (RadarViewController, JSONModel) => {
 	"use strict";
 
@@ -18,50 +16,61 @@ sap.ui.define([
 				lastUpdated: ""
 			});
 
+			// Save original methods
+			this._origGetView = this.oController.getView;
+			this._origGetOwnerComponent = this.oController.getOwnerComponent;
+			this._origGetText = this.oController.getText;
+
 			// Create mock view
-			this.oViewStub = {
-				getModel: (sName) => {
-					if (sName === "view") {
-						return this.oViewModel;
-					}
-					return null;
-				},
-				setModel: sinon.stub()
+			const that = this;
+			this.oController.getView = function() {
+				return {
+					getModel: function(sName) {
+						if (sName === "view") {
+							return that.oViewModel;
+						}
+						return null;
+					},
+					setModel: function() {}
+				};
 			};
 
 			// Create mock component
-			this.oComponentStub = {
-				getModel: (sName) => {
-					if (sName === "i18n") {
-						return {
-							getResourceBundle: () => ({
-								getText: (sKey, aArgs) => {
-									if (sKey === "lastUpdatedLabel" && aArgs) {
-										return "Last Updated: " + aArgs[0];
-									}
-									return sKey;
+			this.oController.getOwnerComponent = function() {
+				return {
+					getModel: function(sName) {
+						if (sName === "i18n") {
+							return {
+								getResourceBundle: function() {
+									return {
+										getText: function(sKey, aArgs) {
+											if (sKey === "lastUpdatedLabel" && aArgs) {
+												return "Last Updated: " + aArgs[0];
+											}
+											return sKey;
+										}
+									};
 								}
-							})
-						};
+							};
+						}
+						return null;
 					}
-					return null;
-				}
+				};
 			};
 
-			// Stub controller methods
-			sinon.stub(this.oController, "getView").returns(this.oViewStub);
-			sinon.stub(this.oController, "getOwnerComponent").returns(this.oComponentStub);
-			sinon.stub(this.oController, "getText").callsFake((sKey, aArgs) => {
+			// Mock getText
+			this.oController.getText = function(sKey, aArgs) {
 				if (sKey === "lastUpdatedLabel" && aArgs) {
 					return "Last Updated: " + aArgs[0];
 				}
 				return sKey;
-			});
+			};
 		},
 		afterEach() {
-			this.oController.getView.restore();
-			this.oController.getOwnerComponent.restore();
-			this.oController.getText.restore();
+			// Restore original methods
+			this.oController.getView = this._origGetView;
+			this.oController.getOwnerComponent = this._origGetOwnerComponent;
+			this.oController.getText = this._origGetText;
 			this.oViewModel.destroy();
 			this.oController.destroy();
 		}
@@ -69,7 +78,7 @@ sap.ui.define([
 
 	QUnit.test("Should group trends by focus area correctly", function(assert) {
 		// Arrange
-		const oMockData = {
+		var oMockData = {
 			radar_date: "2026-01-30",
 			trends: [
 				{ focus_area: "voice_ai_ux", tool_name: "LiveKit", classification: "signal" },
@@ -78,15 +87,15 @@ sap.ui.define([
 				{ focus_area: "durable_runtime", tool_name: "Temporal", classification: "signal" }
 			]
 		};
-		const oDataModel = new JSONModel(oMockData);
+		var oDataModel = new JSONModel(oMockData);
 
 		// Act
 		this.oController._processRadarData(oDataModel);
 
 		// Assert
-		const aVoiceAi = this.oViewModel.getProperty("/voiceAiUx");
-		const aAgentOrch = this.oViewModel.getProperty("/agentOrchestration");
-		const aDurable = this.oViewModel.getProperty("/durableRuntime");
+		var aVoiceAi = this.oViewModel.getProperty("/voiceAiUx");
+		var aAgentOrch = this.oViewModel.getProperty("/agentOrchestration");
+		var aDurable = this.oViewModel.getProperty("/durableRuntime");
 
 		assert.strictEqual(aVoiceAi.length, 2, "Voice AI UX has 2 trends");
 		assert.strictEqual(aAgentOrch.length, 1, "Agent Orchestration has 1 trend");
@@ -100,17 +109,17 @@ sap.ui.define([
 
 	QUnit.test("Should set lastUpdated with radar_date", function(assert) {
 		// Arrange
-		const oMockData = {
+		var oMockData = {
 			radar_date: "2026-02-01",
 			trends: []
 		};
-		const oDataModel = new JSONModel(oMockData);
+		var oDataModel = new JSONModel(oMockData);
 
 		// Act
 		this.oController._processRadarData(oDataModel);
 
 		// Assert
-		const sLastUpdated = this.oViewModel.getProperty("/lastUpdated");
+		var sLastUpdated = this.oViewModel.getProperty("/lastUpdated");
 		assert.strictEqual(sLastUpdated, "Last Updated: 2026-02-01", "Last updated contains radar date");
 
 		oDataModel.destroy();
@@ -118,11 +127,11 @@ sap.ui.define([
 
 	QUnit.test("Should handle empty trends array", function(assert) {
 		// Arrange
-		const oMockData = {
+		var oMockData = {
 			radar_date: "2026-01-30",
 			trends: []
 		};
-		const oDataModel = new JSONModel(oMockData);
+		var oDataModel = new JSONModel(oMockData);
 
 		// Act
 		this.oController._processRadarData(oDataModel);
@@ -137,7 +146,7 @@ sap.ui.define([
 
 	QUnit.test("Should handle null data gracefully", function(assert) {
 		// Arrange
-		const oDataModel = new JSONModel(null);
+		var oDataModel = new JSONModel(null);
 
 		// Act - should not throw
 		this.oController._processRadarData(oDataModel);
@@ -150,7 +159,7 @@ sap.ui.define([
 
 	QUnit.test("Should handle data without trends property", function(assert) {
 		// Arrange
-		const oDataModel = new JSONModel({ radar_date: "2026-01-30" });
+		var oDataModel = new JSONModel({ radar_date: "2026-01-30" });
 
 		// Act - should not throw
 		this.oController._processRadarData(oDataModel);
@@ -163,14 +172,14 @@ sap.ui.define([
 
 	QUnit.test("Should ignore unknown focus areas", function(assert) {
 		// Arrange
-		const oMockData = {
+		var oMockData = {
 			radar_date: "2026-01-30",
 			trends: [
 				{ focus_area: "unknown_area", tool_name: "Mystery Tool", classification: "signal" },
 				{ focus_area: "voice_ai_ux", tool_name: "LiveKit", classification: "signal" }
 			]
 		};
-		const oDataModel = new JSONModel(oMockData);
+		var oDataModel = new JSONModel(oMockData);
 
 		// Act
 		this.oController._processRadarData(oDataModel);
