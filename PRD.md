@@ -96,6 +96,82 @@ response = litellm.completion(
 )
 ```
 
+### SQLite Database Schema
+
+```sql
+CREATE TABLE trends (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    radar_date TEXT NOT NULL,
+    focus_area TEXT NOT NULL,
+    tool_name TEXT NOT NULL,
+    classification TEXT NOT NULL CHECK(classification IN ('signal', 'noise')),
+    confidence_score INTEGER NOT NULL CHECK(confidence_score >= 1 AND confidence_score <= 100),
+    technical_insight TEXT NOT NULL,
+    signal_evidence TEXT,  -- JSON array as TEXT
+    noise_indicators TEXT, -- JSON array as TEXT
+    architectural_verdict INTEGER NOT NULL, -- 0 or 1 (boolean)
+    timestamp TEXT NOT NULL, -- ISO 8601
+    UNIQUE(radar_date, focus_area, tool_name)
+);
+
+-- Performance indexes
+CREATE INDEX idx_radar_date ON trends(radar_date);
+CREATE INDEX idx_focus_area ON trends(focus_area);
+CREATE INDEX idx_classification ON trends(classification);
+```
+
+### API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/radar` | Returns latest radar analysis (default: today) |
+| `GET` | `/api/radar?date=YYYY-MM-DD` | Returns historical analysis for a specific date |
+| `POST` | `/api/radar/refresh` | Manually trigger Grok analysis and persist results |
+
+**Response Format:** Golden Contract JSON (Section 2)
+
+**Error Responses:**
+
+| Status | Description |
+|--------|-------------|
+| `200` | Success — returns radar data |
+| `404` | No data found for requested date |
+| `500` | Internal server error (DB or Grok failure) |
+| `503` | Grok API unavailable (returns cached data if available) |
+
+### CORS Configuration
+
+```python
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:8080"],  # UI5 dev server
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+```
+
+### Error Handling
+
+**Grok API Failures:**
+- Retry with exponential backoff (3 attempts)
+- Log failure with timestamp
+- Return cached data from previous successful run
+- Set `stale_data: true` flag in API response
+
+**Invalid JSON from Grok:**
+- Log raw response for debugging
+- Validate against Golden Contract schema before persisting
+- Return empty array for that focus area
+- Continue processing other focus areas
+
+**Database Errors:**
+- Log error details
+- Return HTTP 500 with error message
+- Use transactions to prevent partial data persistence
+
 ---
 
 ### Track C: AI/Prompt Engineering (Grok via LiteLLM)
